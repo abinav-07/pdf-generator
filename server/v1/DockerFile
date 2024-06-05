@@ -1,4 +1,4 @@
-FROM node:20.13.1-alpine
+FROM node:alpine
 # Setting new folder in docker container where our files will be copied
 # Setting user and group to node 
 RUN mkdir -p /node/app/node_modules && chown -R node:node /node/app
