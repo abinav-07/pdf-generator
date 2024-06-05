@@ -1,0 +1,25 @@
+{
+  "name": "pdf-renderer-app",
+  "version": "1.0.0",
+  "description": "Main",
+  "private": true,
+  "workspaces": [
+    "server/*",
+    "web/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format:fix": "prettier --write './**/*.{js,ts}{x,}'",
+    "doc": "apidoc -i ./server/v1/controllers -e ./server/v1/node_modules -o ./server/v1/documentation/api"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  },
+  
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apidoc": "^1.2.0"
+  }
+}
