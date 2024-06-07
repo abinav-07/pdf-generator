@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint-staged": "lint-staged",
     "format:fix": "prettier --write './**/*.{js,ts}{x,}'",
     "doc": "apidoc -i ./server/v1/controllers -e ./server/v1/node_modules -o ./server/v1/documentation/api"
   },
