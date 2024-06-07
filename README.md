@@ -19,9 +19,9 @@ This section covers the process for configuring and installing the application p
 4. You can now access your applications, 5001 for database, 3000 (default) react and 5000 from env for nodejs.
 5. The urls are for the application pages are:
 #### User Routes
-- /register
+- /register Register User Page
+- /login Login User/Admin Page,
 #### Admin Routes
-- /admin/login Login admin,
 - /admin/pdf-contents
 - /admin/members
 6. (Optional) Register some users from /admin/register page, and then use admin dashboard using the email that was provided at the start to see atleast some user data in members tab.
