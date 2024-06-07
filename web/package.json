@@ -8,16 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "yarn stylelint",
-      "yarn format",
-      "git add"
-    ]
-  },
-  "pre-commit": [
-    "lint-staged"
-  ],
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "antd": "^5.18.0",
