@@ -49,7 +49,7 @@ const getAll = async (req, res, next) => {
 };
 
 /**
- * @api {patch} /v1/admin/member/update Update User
+ * @api {patch} /v1/admin/members/update Update User
  * @apiName UpdateUser
  * @apiGroup Admin Users
  * @apiDescription Update user
@@ -127,7 +127,7 @@ const update = async (req, res, next) => {
 };
 
 /**
- * @api {delete} /v1/admin/member/delete Delete User
+ * @api {delete} /v1/admin/members/delete Delete User
  * @apiName DeleteUser
  * @apiGroup Admin Users
  * @apiDescription Delete currently logged in user
