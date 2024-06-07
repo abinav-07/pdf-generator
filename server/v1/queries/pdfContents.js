@@ -1,4 +1,4 @@
-const { PDFContents } = require("../models")
+const { PDFContents } = require("../models");
 
 /*
  Create a class named PDFContentQueries which will be used to
@@ -6,27 +6,27 @@ const { PDFContents } = require("../models")
 */
 class PDFContentQueries {
   table() {
-    return PDFContents
+    return PDFContents;
   }
 
   async getAll(query) {
-    return await this.table().findAll(query)
+    return await this.table().findAll(query);
   }
 
   // Get User using id or any fitler
   async getOnePDF(filter = null) {
     const query = {
       raw: true,
-    }
+    };
 
-    if (filter) query.where = filter
+    if (filter) query.where = filter;
 
-    return await this.table().findOne(query)
+    return await this.table().findOne(query);
   }
 
   // Create new
   async createPDFContents(pdfData, transaction = null) {
-    return await this.table().create({ ...pdfData }, { transaction })
+    return await this.table().create({ ...pdfData }, { transaction });
   }
 
   // update PDF using id and values
@@ -39,7 +39,7 @@ class PDFContentQueries {
         },
         transaction,
       },
-    )
+    );
   }
 
   // delete PDF using id
@@ -49,8 +49,8 @@ class PDFContentQueries {
         id,
       },
       transaction,
-    })
+    });
   }
 }
 
-module.exports = new PDFContentQueries()
+module.exports = new PDFContentQueries();

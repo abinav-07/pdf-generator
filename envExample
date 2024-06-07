@@ -8,6 +8,6 @@ MY_SQL_HOST=db
 NODE_ENV=development
 ADMINER_PORT=5001
 
-#React
-REACT_APP_API=http://localhost:5000/v1
+#NEXT
+NEXT_PUBLIC_API=http://localhost:5000/v1
 

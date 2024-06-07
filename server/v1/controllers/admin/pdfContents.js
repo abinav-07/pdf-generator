@@ -1,9 +1,9 @@
-const Joi = require("joi")
-const { ValidationException } = require("../../exceptions/httpsExceptions")
+const Joi = require("joi");
+const { ValidationException } = require("../../exceptions/httpsExceptions");
 
 //Queries
-const PDFContentQueries = require("../../queries/pdfContents")
-const { sequelize } = require("../../models")
+const PDFContentQueries = require("../../queries/pdfContents");
+const { sequelize } = require("../../models");
 
 /**
  * @api {get} /v1/admin/pdf/contents Get All pages
@@ -37,20 +37,17 @@ const { sequelize } = require("../../models")
 const getAll = async (req, res, next) => {
   try {
     // Get All PDF Contents with child table data
-    const getAll = await PDFContentQueries.getAll(
-    {
-      where:{
-       admin_id: req.user?.id
-      }
-    }
-    )
+    const getAll = await PDFContentQueries.getAll({
+      where: {
+        admin_id: req.user?.id,
+      },
+    });
 
-      
-    res.status(200).json(getAll)
+    res.status(200).json(getAll);
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
 /**
  * @api {post} /v1/admin/pdf/contents/create Create PDF Contents
@@ -86,7 +83,7 @@ const getAll = async (req, res, next) => {
  */
 const create = async (req, res, next) => {
   // get payload
-  const data = req.body
+  const data = req.body;
   let t;
   // Joi validations
   const schema = Joi.object({
@@ -94,31 +91,29 @@ const create = async (req, res, next) => {
     custom_header_image: Joi.string(),
     custom_body: Joi.string(),
     custom_footer: Joi.string(),
-  })
+  });
 
-  const validationResult = schema.validate(data, { abortEarly: false })
+  const validationResult = schema.validate(data, { abortEarly: false });
   try {
-
-  const {user}=req.user
+    const { user } = req.user;
 
     // First, we start a transaction from your connection and save it into a variable
-    t = await sequelize.transaction()
+    t = await sequelize.transaction();
     if (validationResult && validationResult.error)
-      throw new ValidationException(null, validationResult.error)
+      throw new ValidationException(null, validationResult.error);
 
     //TODO: Create and generate PDF and add in DB.
-    
-    await t.commit()
+
+    await t.commit();
 
     res.status(200).json({
       success: true,
-    })
+    });
   } catch (err) {
-    await t.rollback()
-    next(err)
+    await t.rollback();
+    next(err);
   }
-}
-
+};
 
 /**
  * @api {delete} /v1/admin/pdf/contents/:pdf_id/delete Delete One PDF Content
@@ -146,37 +141,41 @@ const create = async (req, res, next) => {
  */
 const deleteOne = async (req, res, next) => {
   // get payload
-  const data = req.params
-  let t
-  
+  const data = req.params;
+  let t;
+
   try {
-    const {user}=req.user
+    const { user } = req.user;
     // First, we start a transaction from your connection and save it into a variable
-    t = await sequelize.transaction()
+    t = await sequelize.transaction();
 
     // Check if Pages exists in our DB
-    const checkID = await PDFContentQueries.getOnePDF({ id: data?.pdf_id, admin_id: user?.id})
+    const checkID = await PDFContentQueries.getOnePDF({
+      id: data?.pdf_id,
+      admin_id: user?.id,
+    });
 
-    if (!checkID) throw new ValidationException(null, "PDF Contents not found!")
+    if (!checkID)
+      throw new ValidationException(null, "PDF Contents not found!");
 
     // DELETE
-    await PDFContentQueries.delete(checkID?.id,t)
+    await PDFContentQueries.delete(checkID?.id, t);
 
     const payload = {
       success: true,
-    }
+    };
 
-    await t.commit()
+    await t.commit();
 
-    res.status(200).json(payload)
+    res.status(200).json(payload);
   } catch (err) {
-    await t.rollback()
-    next(err)
+    await t.rollback();
+    next(err);
   }
-}
+};
 
 module.exports = {
   create,
   getAll,
   deleteOne,
-}
+};

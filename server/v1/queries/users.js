@@ -1,4 +1,4 @@
-const { Users } = require("../models")
+const { Users } = require("../models");
 
 /*
  Create a class named UserQueries which will be used to
@@ -6,28 +6,35 @@ const { Users } = require("../models")
 */
 class UserQueries {
   table() {
-    return Users
+    return Users;
   }
 
   async getAll(query) {
-    return await this.table().findAll(query)
+    return await this.table().findAll(query);
   }
 
   // Get User using id or any fitler
   async getUser(filter = null) {
     const query = {
       raw: true,
-      attributes: ["id", "first_name", "last_name", "email", "password", "role"],
-    }
+      attributes: [
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "password",
+        "role",
+      ],
+    };
 
-    if (filter) query.where = filter
+    if (filter) query.where = filter;
 
-    return await this.table().findOne(query)
+    return await this.table().findOne(query);
   }
 
   // Create new user
   async createUser(userData) {
-    return await this.table().create(userData)
+    return await this.table().create(userData);
   }
 
   // update user using id and values
@@ -39,7 +46,7 @@ class UserQueries {
           id,
         },
       },
-    )
+    );
   }
 
   // delete user using id
@@ -48,8 +55,8 @@ class UserQueries {
       where: {
         id,
       },
-    })
+    });
   }
 }
 
-module.exports = new UserQueries()
+module.exports = new UserQueries();

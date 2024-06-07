@@ -1,9 +1,9 @@
-const Joi = require("joi")
-const { Op } = require("sequelize")
-const { ValidationException } = require("../../exceptions/httpsExceptions")
+const Joi = require("joi");
+const { Op } = require("sequelize");
+const { ValidationException } = require("../../exceptions/httpsExceptions");
 
 //Queries
-const UserQueries = require("../../queries/users")
+const UserQueries = require("../../queries/users");
 
 /**
  * @api {get} /v1/admin/members Get All Users
@@ -37,16 +37,16 @@ const UserQueries = require("../../queries/users")
 const getAll = async (req, res, next) => {
   try {
     // Get All features with child table data
-    const getAll = await UserQueries.getAll(
-      {
-        attributes:["id","first_name","last_name","email","role"],
-       include: { all: true, separate: true } })
+    const getAll = await UserQueries.getAll({
+      attributes: ["id", "first_name", "last_name", "email", "role"],
+      include: { all: true, separate: true },
+    });
 
-    res.status(200).json(getAll)
+    res.status(200).json(getAll);
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
 /**
  * @api {patch} /v1/admin/member/update Update User
@@ -84,7 +84,7 @@ const getAll = async (req, res, next) => {
  */
 const update = async (req, res, next) => {
   // get payload
-  const data = req.body
+  const data = req.body;
 
   // Joi validations
   const schema = Joi.object({
@@ -92,36 +92,39 @@ const update = async (req, res, next) => {
     last_name: Joi.string().optional(),
     email: Joi.string().required().email(),
     role: Joi.string().optional(),
-  })
+  });
 
-  const validationResult = schema.validate(data, { abortEarly: false })
+  const validationResult = schema.validate(data, { abortEarly: false });
 
   try {
     if (validationResult && validationResult.error)
-      throw new ValidationException(null, validationResult.error)
+      throw new ValidationException(null, validationResult.error);
 
     // Check if user exists in our DB
-    const checkUser = await UserQueries.getUser({ email: data?.email })
+    const checkUser = await UserQueries.getUser({ email: data?.email });
 
-    if (!checkUser) throw new ValidationException(null, "User not found!")
+    if (!checkUser) throw new ValidationException(null, "User not found!");
 
     // Check if email already exists
-    const user = await UserQueries.getUser({ email: data.email, id: { [Op.ne]: checkUser?.id } })
+    const user = await UserQueries.getUser({
+      email: data.email,
+      id: { [Op.ne]: checkUser?.id },
+    });
 
     // Check if email already exists
     if (user && user.email && checkUser.email !== data.email)
-      throw new ValidationException(null, "Email Already Exists!")
+      throw new ValidationException(null, "Email Already Exists!");
 
     // Update user
-    await UserQueries.updateUser(checkUser?.id, data)
+    await UserQueries.updateUser(checkUser?.id, data);
 
     res.status(200).json({
       success: true,
-    })
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
 /**
  * @api {delete} /v1/admin/member/delete Delete User
@@ -148,28 +151,28 @@ const update = async (req, res, next) => {
 const deleteOne = async (req, res, next) => {
   try {
     // Get autheticated user from our req payload, set in JWT
-    const { user_id } = req.user
+    const { user_id } = req.user;
 
     // Check if user exists in our DB
-    const checkUser = await UserQueries.getUser({ id: user_id })
+    const checkUser = await UserQueries.getUser({ id: user_id });
 
-    if (!checkUser) throw new ValidationException(null, "User not found!")
+    if (!checkUser) throw new ValidationException(null, "User not found!");
 
     // Delete User
-    await UserQueries.deleteUser(user_id)
+    await UserQueries.deleteUser(user_id);
 
     const payload = {
       success: true,
-    }
+    };
 
-    res.status(200).json(payload)
+    res.status(200).json(payload);
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
 module.exports = {
   getAll,
   update,
   deleteOne,
-}
+};

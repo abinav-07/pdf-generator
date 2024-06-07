@@ -50,7 +50,7 @@ module.exports = {
           },
         },
         { transaction: t },
-      )
+      );
       await queryInterface.createTable(
         "pdf_contents",
         {
@@ -67,7 +67,7 @@ module.exports = {
               key: "id",
             },
           },
-          pdf_name:{
+          pdf_name: {
             type: Sequelize.DataTypes.STRING(256),
             allowNull: false,
           },
@@ -97,8 +97,8 @@ module.exports = {
           },
         },
         { transaction: t },
-      )
-    })
+      );
+    });
   },
 
   down: async (queryInterface) => {
@@ -109,8 +109,8 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
     return queryInterface.sequelize.transaction(async (t) => {
-      await queryInterface.dropTable("pdf_contents", { transaction: t })
-      await queryInterface.dropTable("users", { transaction: t })
-    })
+      await queryInterface.dropTable("pdf_contents", { transaction: t });
+      await queryInterface.dropTable("users", { transaction: t });
+    });
   },
-}
+};

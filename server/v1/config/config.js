@@ -1,8 +1,8 @@
-const dotenv = require("dotenv")
-const path = require("path")
+const dotenv = require("dotenv");
+const path = require("path");
 
 // Setting different path for Env, since its inside server folder
-dotenv.config({ path: path.resolve(__dirname, "../.env") })
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 module.exports = {
   development: {
     username: process.env.MY_SQL_USERNAME,
@@ -18,4 +18,4 @@ module.exports = {
     },
     logging: process.env.NODE_ENV === "development", //logs sequelize executions
   },
-}
+};

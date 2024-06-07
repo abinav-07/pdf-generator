@@ -5,8 +5,8 @@ const HTTPSTATUSCODES = Object.freeze({
   NOT_FOUND: 404,
   INTERNAL_SERVER: 500,
   VALIDATION_ERROR: 422,
-})
+});
 
 module.exports = {
   HTTPSTATUSCODES,
-}
+};

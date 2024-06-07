@@ -1,4 +1,4 @@
-const { Model } = require("sequelize")
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class PDFContents extends Model {
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      pdf_name:{
+      pdf_name: {
         type: DataTypes.STRING(256),
         allowNull: false,
       },
@@ -49,6 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "PDFContents",
       tableName: "pdf_contents",
     },
-  )
-  return PDFContents
-}
+  );
+  return PDFContents;
+};

@@ -13,7 +13,7 @@ RUN npm install
 COPY ./web/ .
 
 # Change ownership of the directory to the node user.
-# RUN chown -Rh node:node /next/app
+RUN chown -Rh node:node /next/app
 
 # Use the node user from here on.
 USER node

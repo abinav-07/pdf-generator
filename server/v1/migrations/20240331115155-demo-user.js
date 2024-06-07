@@ -19,11 +19,12 @@ module.exports = {
           last_name: "Don",
           email: "admin@gmail.com",
           role: "Admin",
-          password: "$2a$12$rEp6m9wsUklwdoVhrQ7gnOW1RtfbzGj/Eme2XVrfJbiwjFk/H6oMa",
+          password:
+            "$2a$12$rEp6m9wsUklwdoVhrQ7gnOW1RtfbzGj/Eme2XVrfJbiwjFk/H6oMa",
         },
       ],
       {},
-    )
+    );
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -33,6 +34,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("users", null, {})
+    await queryInterface.bulkDelete("users", null, {});
   },
-}
+};
