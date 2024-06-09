@@ -14,6 +14,6 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
-`;
+  `;
 
 export { GlobalStyles };
