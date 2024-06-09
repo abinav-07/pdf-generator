@@ -110,7 +110,7 @@ const create = async (req, res, next) => {
   try {
     const { user } = req.user;
 
-    let {headerHTML,bodyHTML,footerHTML,pdfOptions}=data
+    let { headerHTML, bodyHTML, footerHTML, pdfOptions } = data;
 
     // First, we start a transaction from your connection and save it into a variable
     t = await sequelize.transaction();
@@ -118,29 +118,33 @@ const create = async (req, res, next) => {
       throw new ValidationException(null, validationResult.error);
 
     // PDF Option
-    pdfOptions = pdfOptions || DEFAULTPDFOPTIONS
+    pdfOptions = pdfOptions || DEFAULTPDFOPTIONS;
 
     // Create Puppetter
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath:"/usr/bin/chromium",
-      args: ['--no-sandbox','--disable-setuid-sandbox'],
-  })
-  
-  // Create PDF Contents
+      executablePath: "/usr/bin/chromium",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+
+    // Create PDF Contents
     const page = await browser.newPage();
-    const pdfContentTemplate=createSimpleTemplate(headerHTML,bodyHTML,footerHTML)
-   await page.setContent(pdfContentTemplate, { waitUntil: 'networkidle2' });
-   await page.setViewport({ width: 1200, height: 800 });
-   
+    const pdfContentTemplate = createSimpleTemplate(
+      headerHTML,
+      bodyHTML,
+      footerHTML,
+    );
+    await page.setContent(pdfContentTemplate, { waitUntil: "networkidle2" });
+    await page.setViewport({ width: 1200, height: 800 });
+
     const pdfBuffer = await page.pdf();
 
     await browser.close();
 
     await t.commit();
 
-    res.setHeader('Content-Type', 'application/pdf');
-    
+    res.setHeader("Content-Type", "application/pdf");
+
     res.status(200).send(pdfBuffer);
   } catch (err) {
     await t.rollback();

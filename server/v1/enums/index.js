@@ -22,5 +22,5 @@ const DEFAULTPDFOPTIONS = Object.freeze({
 
 module.exports = {
   HTTPSTATUSCODES,
-  DEFAULTPDFOPTIONS
+  DEFAULTPDFOPTIONS,
 };
