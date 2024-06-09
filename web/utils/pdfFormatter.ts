@@ -1,8 +1,6 @@
-import { rehype } from 'rehype'
-import rehypeFormat from 'rehype-format'
+import { rehype } from "rehype";
+import rehypeFormat from "rehype-format";
 
 export const formatHtml = (input: string) => {
-    return String(rehype().use(rehypeFormat).processSync(input))
-}
-
-
+  return String(rehype().use(rehypeFormat).processSync(input));
+};
