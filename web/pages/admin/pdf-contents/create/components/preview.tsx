@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   .header-text {
     text-align: center;
     span {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
     }
   }
@@ -36,7 +36,7 @@ const PDFPreview: React.FC<IPreview> = ({
   return (
     <Wrapper>
       <div className="header-text">
-        <Typography.Text>Your PDF Preview</Typography.Text>
+        <Typography.Text>Preview</Typography.Text>
       </div>
 
       <div id="pdf-content">

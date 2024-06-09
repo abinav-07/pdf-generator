@@ -1,9 +1,12 @@
 const Joi = require("joi");
 const { ValidationException } = require("../../exceptions/httpsExceptions");
+const puppeteer = require("puppeteer");
 
 //Queries
 const PDFContentQueries = require("../../queries/pdfContents");
 const { sequelize } = require("../../models");
+const { DEFAULTPDFOPTIONS } = require("../../enums");
+const { createSimpleTemplate } = require("../../templates/simplePDF");
 
 /**
  * @api {get} /v1/admin/pdf/contents Get All pages
@@ -55,10 +58,9 @@ const getAll = async (req, res, next) => {
  * @apiGroup PDFContents
  * @apiDescription Create PDFContens
  *
- * @apiParam {String} custom_header Header of PDF
- * @apiParam {String} custom_header_image Header Image of PDF
- * @apiParam {String} custom_body Body of PDF
- * @apiParam {String} custom_footer Footer of PDF
+ * @apiParam {String} headerHTML Header of PDF
+ * @apiParam {String} bodyHTML Body of PDF
+ * @apiParam {String} footerHTML Footer of PDF
  *
  * @apiParamExample {json} Request Example:
  * {
@@ -87,28 +89,59 @@ const create = async (req, res, next) => {
   let t;
   // Joi validations
   const schema = Joi.object({
-    custom_header: Joi.string().required(),
-    custom_header_image: Joi.string(),
-    custom_body: Joi.string(),
-    custom_footer: Joi.string(),
+    headerHTML: Joi.string().required(),
+    bodyHTML: Joi.string(),
+    footerHTML: Joi.string(),
+    pdfOptions: Joi.object({
+      format: Joi.string(),
+      printBackground: Joi.boolean(),
+      width: Joi.string(),
+      height: Joi.string(),
+      margin: Joi.object({
+        top: Joi.string(),
+        right: Joi.string(),
+        bottom: Joi.string(),
+        left: Joi.string(),
+      }),
+    }),
   });
 
   const validationResult = schema.validate(data, { abortEarly: false });
   try {
     const { user } = req.user;
 
+    let {headerHTML,bodyHTML,footerHTML,pdfOptions}=data
+
     // First, we start a transaction from your connection and save it into a variable
     t = await sequelize.transaction();
     if (validationResult && validationResult.error)
       throw new ValidationException(null, validationResult.error);
 
-    //TODO: Create and generate PDF and add in DB.
+    // PDF Option
+    pdfOptions = pdfOptions || DEFAULTPDFOPTIONS
+
+    // Create Puppetter
+    const browser = await puppeteer.launch({
+      headless: true,
+      executablePath:"/usr/bin/chromium",
+      args: ['--no-sandbox','--disable-setuid-sandbox'],
+  })
+  
+  // Create PDF Contents
+    const page = await browser.newPage();
+    const pdfContentTemplate=createSimpleTemplate(headerHTML,bodyHTML,footerHTML)
+   await page.setContent(pdfContentTemplate, { waitUntil: 'networkidle2' });
+   await page.setViewport({ width: 1200, height: 800 });
+   
+    const pdfBuffer = await page.pdf();
+
+    await browser.close();
 
     await t.commit();
 
-    res.status(200).json({
-      success: true,
-    });
+    res.setHeader('Content-Type', 'application/pdf');
+    
+    res.status(200).send(pdfBuffer);
   } catch (err) {
     await t.rollback();
     next(err);

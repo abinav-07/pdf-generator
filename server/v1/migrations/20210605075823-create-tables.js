@@ -75,10 +75,6 @@ module.exports = {
             type: Sequelize.DataTypes.STRING(256),
             allowNull: false,
           },
-          custom_header_image: {
-            type: Sequelize.DataTypes.TEXT,
-            allowNull: true,
-          },
           custom_body: {
             type: Sequelize.DataTypes.TEXT,
             allowNull: false,

@@ -5,7 +5,7 @@ import { fetchPDFContents } from "@/services/pdfContents";
 import PrivateRoute from "@/privateRoute";
 import { Content, Header as AntHeader } from "antd/lib/layout/layout";
 import styled from "styled-components";
-import Link from "next/link";
+import Router from "next/router";
 
 const Header = styled(AntHeader)`
   display: flex;
@@ -70,10 +70,13 @@ const FeatureList: React.FC = () => {
   return (
     <>
       <Layout>
-        <Header style={{ background: "#fff", alignItems: "center" }}>
-          <h3>Page and their Features </h3>
-          <Button>
-            <Link href={"/admin/pdf-contents/create"}>Create PDF</Link>
+        <Header
+          className="content-header"
+          style={{ background: "#fff", alignItems: "center" }}
+        >
+          <h3>PDF Contents </h3>
+          <Button onClick={() => Router.push("/admin/pdf-contents/create")}>
+            Create PDF
           </Button>
         </Header>
         <Content>

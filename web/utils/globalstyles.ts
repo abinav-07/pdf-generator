@@ -14,6 +14,14 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
+  .content-header{
+    background: #fff;
+    align-items: center;
+    display:flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #c7cdd4;
+    margin-bottom:5px;
+  }
   `;
 
 export { GlobalStyles };
