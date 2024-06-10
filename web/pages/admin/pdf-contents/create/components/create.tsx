@@ -1,10 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Button, Col, Divider, Form, Row, message } from "antd";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import PDFPreview from "./preview";
+
 import { createPDFContents } from "@/services/pdfContents";
-import { randomUUID } from "crypto";
+import { formatFooter, formatHeader } from '@/utils/pdfFormatter';
+
 const TiptapEditor = dynamic(() => import("../../../../../components/tiptap"), {
   ssr: false,
 });
@@ -22,6 +25,8 @@ const GeneratorModel: React.FC = () => {
     bodyText: "",
     footerText: "",
   });
+  const [image, setImage] = useState<string>("")
+
   const { mutate: generatePDF, isLoading: isPreviewLoading } = useMutation(
     createPDFContents,
     {
@@ -31,7 +36,7 @@ const GeneratorModel: React.FC = () => {
 
         // Create a URL for the blob
         const url = window.URL.createObjectURL(blob);
-        const filename = `${randomUUID()}-generated.pdf`;
+        const filename = `${uuidv4()}-generated.pdf`;
 
         // Create a link element and trigger download
         const link = document.createElement("a");
@@ -56,12 +61,13 @@ const GeneratorModel: React.FC = () => {
 
   const handleSubmit = async (values: IHTMLContents) => {
     generatePDF({
-      headerHTML: values?.headerText,
+      headerHTML: await formatHeader(values?.headerText, image),
       bodyHTML: values?.bodyText,
-      footerHTML: values?.footerText,
+      footerHTML: formatFooter(values?.footerText),
       // Default Values
       pdfOptions: {
         format: "A4",
+        displayHeaderFooter: true,
         printBackground: true,
         width: "595px",
         height: "848px",
@@ -96,16 +102,18 @@ const GeneratorModel: React.FC = () => {
               ]}
             >
               <TiptapEditor
-                placeholder="Type your header contents..."
+                placeholder="Type your header contents as HTML code!EG: <div>Test</div>"
                 value={form.getFieldValue("headerText")}
-                onChange={(value: string) => {
-                  form.setFieldValue;
+                onChange={(value: any) => {
+                  form.setFieldValue("headerText", htmlContents.headerText);
                   setHtmlContents((prevContents) => ({
                     ...prevContents,
                     headerText: value,
                   }));
                 }}
                 displayImageMenu={true}
+                setImage={setImage}
+                image={image}
               />
             </Form.Item>
             <Form.Item
@@ -118,7 +126,7 @@ const GeneratorModel: React.FC = () => {
               <TiptapEditor
                 className="tiptap-body"
                 value={form.getFieldValue("bodyText")}
-                placeholder="Type your body contents..."
+                placeholder="Type your body contents as normal text. Eg: Test"
                 onChange={(value: string) => {
                   form.setFieldValue;
                   setHtmlContents((prevContents) => ({
@@ -126,6 +134,8 @@ const GeneratorModel: React.FC = () => {
                     bodyText: value,
                   }));
                 }}
+                showMenubar={true}
+                returnHTMLType={true}
               />
             </Form.Item>
             <Form.Item
@@ -137,7 +147,7 @@ const GeneratorModel: React.FC = () => {
             >
               <TiptapEditor
                 value={form.getFieldValue("footerText")}
-                placeholder="Type your footer contents..."
+                placeholder="Type your footer contents as HTML code!EG: <div>Test</div>"
                 onChange={(value: string) => {
                   form.setFieldValue;
                   setHtmlContents((prevContents) => ({
@@ -170,6 +180,7 @@ const GeneratorModel: React.FC = () => {
         <Col xs={24} md={12}>
           {/* Div just to render PDF contents  */}
           <PDFPreview
+            headerImage={image || ""}
             headerHTML={htmlContents.headerText}
             bodyHTML={htmlContents.bodyText}
             footerHTML={htmlContents.footerText}

@@ -1,9 +1,10 @@
 import { formatHtml } from "@/utils/pdfFormatter";
-import { Typography } from "antd";
+import { Col, Row, Typography } from "antd";
 import React from "react";
 import styled from "styled-components";
 
 interface IPreview {
+  headerImage?: string
   headerHTML: string;
   bodyHTML: string;
   footerHTML: string;
@@ -22,13 +23,34 @@ const Wrapper = styled.div`
     width: auto;
     height: 95vh;
     border: 2px solid #949fab;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border-radius: 5px;
-    padding: 1in 0.75in;
     overflow: auto;
+    .header-row{
+      align-items:center;
+    }
+    .header-image{
+      width:100px;
+      height:100px;
+      padding:10px;
+    }
+    .header,
+    .footer {
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .body{
+      flex: 1;
+
+      padding: 1in 0.75in;
+    }
   }
 `;
 
 const PDFPreview: React.FC<IPreview> = ({
+  headerImage,
   headerHTML,
   bodyHTML,
   footerHTML,
@@ -40,11 +62,22 @@ const PDFPreview: React.FC<IPreview> = ({
       </div>
 
       <div id="pdf-content">
-        <div
-          id="header"
-          className="header"
-          dangerouslySetInnerHTML={{ __html: formatHtml(headerHTML) }}
-        ></div>
+        <Row className="header-row">
+          <Col span={headerImage ? 18 : 24}>
+            <div
+              id="header"
+              className="header"
+              dangerouslySetInnerHTML={{ __html: formatHtml(headerHTML) }}
+            ></div>
+          </Col>
+          {headerImage ? (
+            <Col span={6}>
+              <img className="header-image" src={headerImage} />
+            </Col>
+          ) : ""}
+
+        </Row>
+
         <div
           id="body"
           className="body"
@@ -56,7 +89,7 @@ const PDFPreview: React.FC<IPreview> = ({
           dangerouslySetInnerHTML={{ __html: formatHtml(footerHTML) }}
         ></div>
       </div>
-    </Wrapper>
+    </Wrapper >
   );
 };
 

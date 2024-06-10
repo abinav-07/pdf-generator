@@ -94,6 +94,7 @@ const create = async (req, res, next) => {
     footerHTML: Joi.string(),
     pdfOptions: Joi.object({
       format: Joi.string(),
+      displayHeaderFooter: Joi.boolean(),
       printBackground: Joi.boolean(),
       width: Joi.string(),
       height: Joi.string(),
@@ -129,15 +130,12 @@ const create = async (req, res, next) => {
 
     // Create PDF Contents
     const page = await browser.newPage();
-    const pdfContentTemplate = createSimpleTemplate(
-      headerHTML,
-      bodyHTML,
-      footerHTML,
-    );
-    await page.setContent(pdfContentTemplate, { waitUntil: "networkidle2" });
-    await page.setViewport({ width: 1200, height: 800 });
+    const pdfContentTemplate = createSimpleTemplate(bodyHTML);
+    pdfOptions.headerTemplate=headerHTML
+    pdfOptions.footerTemplate=footerHTML
 
-    const pdfBuffer = await page.pdf();
+    await page.setContent(pdfContentTemplate, { waitUntil: "networkidle0" });
+    const pdfBuffer = await page.pdf(pdfOptions);
 
     await browser.close();
 

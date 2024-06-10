@@ -4,29 +4,32 @@ import React, { ChangeEvent, useState } from "react";
 import { ImagePopupWrapper } from "./style";
 
 interface ImageMenuProps {
-  editor: Editor;
+  image?: string;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setImage?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-export const AddImageLink = ({ editor, setModal }: ImageMenuProps) => {
-  const [input, setInput] = useState("");
+export const AddImageLink = ({ setModal, image, setImage }: ImageMenuProps) => {
+  const [input, setInput] = useState(image || "");
 
   const handleChange = (e: InputEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     setInput(e.target.value);
   };
 
-  const setlink = (url: string) => {
-    editor.chain().focus().setImage({ src: url }).run();
-    //   Inserting a line break
-    editor.chain().focus().insertContent("<br>").run();
+  const setlink = () => {
+    if (setImage) {
+      setImage(input)
+    }
+    setModal(false);
+    return
   };
 
-  const handleSubmit = (e: any, url: string) => {
-    setlink(url);
-    setModal(false);
-  };
+
+
   return (
     <div>
       <ImagePopupWrapper>
@@ -40,11 +43,11 @@ export const AddImageLink = ({ editor, setModal }: ImageMenuProps) => {
           </Button>
         </Row>
         <div className="image-form">
-          <Input onChange={(e) => handleChange(e)} />
+          <Input value={input} onChange={handleChange} />
           <Button
             className="image-modal-submit"
             type="primary"
-            onClick={(e) => handleSubmit(e, input)}
+            onClick={setlink}
           >
             Add
           </Button>

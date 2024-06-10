@@ -1,6 +1,7 @@
 export interface IPDFOptions {
   format: string;
   printBackground: boolean;
+  displayHeaderFooter: boolean;
   width: string;
   height: string;
   margin: {

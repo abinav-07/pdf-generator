@@ -18,26 +18,17 @@ import { AddImageLink } from "./image";
 interface EditorMenuProps {
   editor: Editor;
   displayImageMenu?: boolean;
+  showMenubar?: boolean;
+  image?: string
+  setImage?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const EditorMenu = ({ editor, displayImageMenu }: EditorMenuProps) => {
+const EditorMenu = ({ editor, displayImageMenu, showMenubar, image, setImage }: EditorMenuProps) => {
   if (!editor) {
     return null;
   }
 
   const [imageModal, setImageModal] = useState<boolean>(false);
-
-  // State to check image involvement, allow only one image
-  const [isImageDisabled, setIsImageDisabled] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!editor) return;
-
-    const hasImage =
-      editor?.getJSON()?.content?.some((node) => node.type === "image") ||
-      false;
-    setIsImageDisabled(hasImage);
-  }, [editor?.getJSON()]);
 
   useEffect(() => {
     const handleMenuButtonClick = (event: any) => {
@@ -89,120 +80,123 @@ const EditorMenu = ({ editor, displayImageMenu }: EditorMenuProps) => {
   return (
     <div>
       <div className="menu">
-        <button
-          className="menu-button"
-          onClick={handleUndo}
-          disabled={!editor.can().undo()}
-        >
-          <RotateLeftOutlined />
-        </button>
-        <button
-          className="menu-button"
-          onClick={handleRedo}
-          disabled={!editor.can().redo()}
-        >
-          <RotateRightOutlined />
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive("bold"),
-          })}
-          onClick={toggleBold}
-        >
-          <BoldOutlined />
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive("underline"),
-          })}
-          onClick={toggleUnderline}
-        >
-          <UnderlineOutlined />
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive("italic"),
-          })}
-          onClick={toggleItalic}
-        >
-          <ItalicOutlined />
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ level: 1 }),
-          })}
-          onClick={handleHeading(1)}
-        >
-          <h6>H1</h6>
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ level: 2 }),
-          })}
-          onClick={handleHeading(2)}
-        >
-          <h6>H2</h6>
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ level: 3 }),
-          })}
-          onClick={handleHeading(3)}
-        >
-          <h6>H3</h6>
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ level: 4 }),
-          })}
-          onClick={handleHeading(4)}
-        >
-          <h6>H4</h6>
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ textAlign: "left" }),
-          })}
-          onClick={handleAlignment("left")}
-        >
-          <AlignLeftOutlined />
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ textAlign: "right" }),
-          })}
-          onClick={handleAlignment("right")}
-        >
-          <AlignRightOutlined />
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ textAlign: "center" }),
-          })}
-          onClick={handleAlignment("center")}
-        >
-          <AlignCenterOutlined />
-        </button>
-        <button
-          className={classNames("menu-button", {
-            "is-active": editor.isActive({ textAlign: "justify" }),
-          })}
-          onClick={handleAlignment("justify")}
-        >
-          <PicCenterOutlined />
-        </button>
+        {showMenubar ?
+          <>
+            <button
+              className="menu-button"
+              onClick={handleUndo}
+              disabled={!editor.can().undo()}
+            >
+              <RotateLeftOutlined />
+            </button>
+            <button
+              className="menu-button"
+              onClick={handleRedo}
+              disabled={!editor.can().redo()}
+            >
+              <RotateRightOutlined />
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive("bold"),
+              })}
+              onClick={toggleBold}
+            >
+              <BoldOutlined />
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive("underline"),
+              })}
+              onClick={toggleUnderline}
+            >
+              <UnderlineOutlined />
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive("italic"),
+              })}
+              onClick={toggleItalic}
+            >
+              <ItalicOutlined />
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ level: 1 }),
+              })}
+              onClick={handleHeading(1)}
+            >
+              <h6>H1</h6>
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ level: 2 }),
+              })}
+              onClick={handleHeading(2)}
+            >
+              <h6>H2</h6>
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ level: 3 }),
+              })}
+              onClick={handleHeading(3)}
+            >
+              <h6>H3</h6>
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ level: 4 }),
+              })}
+              onClick={handleHeading(4)}
+            >
+              <h6>H4</h6>
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ textAlign: "left" }),
+              })}
+              onClick={handleAlignment("left")}
+            >
+              <AlignLeftOutlined />
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ textAlign: "right" }),
+              })}
+              onClick={handleAlignment("right")}
+            >
+              <AlignRightOutlined />
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ textAlign: "center" }),
+              })}
+              onClick={handleAlignment("center")}
+            >
+              <AlignCenterOutlined />
+            </button>
+            <button
+              className={classNames("menu-button", {
+                "is-active": editor.isActive({ textAlign: "justify" }),
+              })}
+              onClick={handleAlignment("justify")}
+            >
+              <PicCenterOutlined />
+            </button>
+          </>
+          : ""}
         <div onMouseLeave={() => setImageModal(false)}>
           {displayImageMenu && (
             <button
               onClick={() => setImageModal(true)}
-              disabled={isImageDisabled}
               className="menu-button"
             >
               <FileImageOutlined />
             </button>
           )}
           {imageModal && (
-            <AddImageLink editor={editor} setModal={setImageModal} />
+            <AddImageLink setModal={setImageModal} image={image} setImage={setImage} />
           )}
         </div>
       </div>
