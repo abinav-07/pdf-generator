@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface IPreview {
-  headerImage?: string
+  headerImage?: string;
   headerHTML: string;
   bodyHTML: string;
   footerHTML: string;
@@ -28,20 +28,20 @@ const Wrapper = styled.div`
     justify-content: space-between;
     border-radius: 5px;
     overflow: auto;
-    .header-row{
-      align-items:center;
+    .header-row {
+      align-items: center;
     }
-    .header-image{
-      width:100px;
-      height:100px;
-      padding:10px;
+    .header-image {
+      width: 100px;
+      height: 100px;
+      padding: 10px;
     }
     .header,
     .footer {
       padding: 10px;
       box-sizing: border-box;
     }
-    .body{
+    .body {
       flex: 1;
 
       padding: 1in 0.75in;
@@ -74,8 +74,9 @@ const PDFPreview: React.FC<IPreview> = ({
             <Col span={6}>
               <img className="header-image" src={headerImage} />
             </Col>
-          ) : ""}
-
+          ) : (
+            ""
+          )}
         </Row>
 
         <div
@@ -89,7 +90,7 @@ const PDFPreview: React.FC<IPreview> = ({
           dangerouslySetInnerHTML={{ __html: formatHtml(footerHTML) }}
         ></div>
       </div>
-    </Wrapper >
+    </Wrapper>
   );
 };
 

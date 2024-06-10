@@ -1,4 +1,4 @@
-exports.createSimpleTemplate = ( bodyHTML) => `
+exports.createSimpleTemplate = (bodyHTML) => `
     <!DOCTYPE html>
     <html lang="en">
     <head>

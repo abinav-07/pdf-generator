@@ -1,5 +1,5 @@
 import React from "react";
-import { EditorContent, useEditor, Editor, Extension, } from "@tiptap/react";
+import { EditorContent, useEditor, Editor, Extension } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
@@ -54,7 +54,6 @@ const TiptapEditor = ({
       props.onChange(html);
     },
   }) as Editor;
-
 
   return (
     <div className={className} {...props}>

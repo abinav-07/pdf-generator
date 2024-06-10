@@ -19,11 +19,17 @@ interface EditorMenuProps {
   editor: Editor;
   displayImageMenu?: boolean;
   showMenubar?: boolean;
-  image?: string
+  image?: string;
   setImage?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const EditorMenu = ({ editor, displayImageMenu, showMenubar, image, setImage }: EditorMenuProps) => {
+const EditorMenu = ({
+  editor,
+  displayImageMenu,
+  showMenubar,
+  image,
+  setImage,
+}: EditorMenuProps) => {
   if (!editor) {
     return null;
   }
@@ -80,7 +86,7 @@ const EditorMenu = ({ editor, displayImageMenu, showMenubar, image, setImage }: 
   return (
     <div>
       <div className="menu">
-        {showMenubar ?
+        {showMenubar ? (
           <>
             <button
               className="menu-button"
@@ -185,18 +191,21 @@ const EditorMenu = ({ editor, displayImageMenu, showMenubar, image, setImage }: 
               <PicCenterOutlined />
             </button>
           </>
-          : ""}
+        ) : (
+          ""
+        )}
         <div onMouseLeave={() => setImageModal(false)}>
           {displayImageMenu && (
-            <button
-              onClick={() => setImageModal(true)}
-              className="menu-button"
-            >
+            <button onClick={() => setImageModal(true)} className="menu-button">
               <FileImageOutlined />
             </button>
           )}
           {imageModal && (
-            <AddImageLink setModal={setImageModal} image={image} setImage={setImage} />
+            <AddImageLink
+              setModal={setImageModal}
+              image={image}
+              setImage={setImage}
+            />
           )}
         </div>
       </div>

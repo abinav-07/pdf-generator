@@ -131,8 +131,8 @@ const create = async (req, res, next) => {
     // Create PDF Contents
     const page = await browser.newPage();
     const pdfContentTemplate = createSimpleTemplate(bodyHTML);
-    pdfOptions.headerTemplate=headerHTML
-    pdfOptions.footerTemplate=footerHTML
+    pdfOptions.headerTemplate = headerHTML;
+    pdfOptions.footerTemplate = footerHTML;
 
     await page.setContent(pdfContentTemplate, { waitUntil: "networkidle0" });
     const pdfBuffer = await page.pdf(pdfOptions);

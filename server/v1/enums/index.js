@@ -10,7 +10,7 @@ const HTTPSTATUSCODES = Object.freeze({
 const DEFAULTPDFOPTIONS = Object.create({
   format: "A4",
   displayHeaderFooter: true,
-  headerTemplate:"",
+  headerTemplate: "",
   footerTemplate: "",
   printBackground: true,
   width: "595px",

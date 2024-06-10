@@ -15,20 +15,18 @@ export const AddImageLink = ({ setModal, image, setImage }: ImageMenuProps) => {
   const [input, setInput] = useState(image || "");
 
   const handleChange = (e: InputEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     setInput(e.target.value);
   };
 
   const setlink = () => {
     if (setImage) {
-      setImage(input)
+      setImage(input);
     }
     setModal(false);
-    return
+    return;
   };
-
-
 
   return (
     <div>

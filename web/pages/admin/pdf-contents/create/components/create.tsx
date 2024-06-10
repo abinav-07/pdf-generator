@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { Button, Col, Divider, Form, Row, message } from "antd";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
@@ -6,7 +6,7 @@ import { useMutation } from "react-query";
 import PDFPreview from "./preview";
 
 import { createPDFContents } from "@/services/pdfContents";
-import { formatFooter, formatHeader } from '@/utils/pdfFormatter';
+import { formatFooter, formatHeader } from "@/utils/pdfFormatter";
 
 const TiptapEditor = dynamic(() => import("../../../../../components/tiptap"), {
   ssr: false,
@@ -25,7 +25,7 @@ const GeneratorModel: React.FC = () => {
     bodyText: "",
     footerText: "",
   });
-  const [image, setImage] = useState<string>("")
+  const [image, setImage] = useState<string>("");
 
   const { mutate: generatePDF, isLoading: isPreviewLoading } = useMutation(
     createPDFContents,
