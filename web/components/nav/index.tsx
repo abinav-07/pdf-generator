@@ -12,7 +12,6 @@ interface props {
 
 const NavBar = ({ type }: props) => {
   const history = Router;
-  console.log("here", history.pathname);
   const activeKey =
     history.pathname.split("/")[2] || history.pathname.split("/")[1];
 

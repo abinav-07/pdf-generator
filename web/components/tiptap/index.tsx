@@ -57,14 +57,13 @@ const TiptapEditor = ({
 
   return (
     <div className={className} {...props}>
-      <EditorMenu
-        editor={editor}
-        displayImageMenu={displayImageMenu}
-        showMenubar={showMenubar}
-        setImage={setImage}
-        image={image}
-        {...props}
-      />
+      {showMenubar && (
+        <EditorMenu
+          editor={editor}
+          {...props}
+        />
+      )}
+
       <EditorContent editor={editor} />
     </div>
   );

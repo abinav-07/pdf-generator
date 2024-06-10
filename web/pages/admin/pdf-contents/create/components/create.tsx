@@ -7,6 +7,7 @@ import PDFPreview from "./preview";
 
 import { createPDFContents } from "@/services/pdfContents";
 import { formatFooter, formatHeader } from "@/utils/pdfFormatter";
+import { AddImageLinkModal } from "@/components/image";
 
 const TiptapEditor = dynamic(() => import("../../../../../components/tiptap"), {
   ssr: false,
@@ -26,6 +27,7 @@ const GeneratorModel: React.FC = () => {
     footerText: "",
   });
   const [image, setImage] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const { mutate: generatePDF, isLoading: isPreviewLoading } = useMutation(
     createPDFContents,
@@ -95,7 +97,14 @@ const GeneratorModel: React.FC = () => {
             onFinish={handleSubmit}
           >
             <Form.Item
-              label="Header Contents"
+              label={
+                <div style={{ display: "flex", justifyContent: "space-between", width: "100vw", alignItems: "center" }}>
+                  <span>Header Contents</span>
+                  <Button type="primary" onClick={() => { setShowModal(true) }}>
+                    Add Image in Header
+                  </Button>
+                </div>
+              }
               name="headerText"
               rules={[
                 { required: true, message: "Please Enter Header Contents!" },
@@ -105,7 +114,7 @@ const GeneratorModel: React.FC = () => {
                 placeholder="Type your header contents as HTML code!EG: <div>Test</div>"
                 value={form.getFieldValue("headerText")}
                 onChange={(value: any) => {
-                  form.setFieldValue("headerText", htmlContents.headerText);
+                  form.setFieldValue
                   setHtmlContents((prevContents) => ({
                     ...prevContents,
                     headerText: value,
@@ -187,6 +196,7 @@ const GeneratorModel: React.FC = () => {
           />
         </Col>
       </Row>
+      <AddImageLinkModal image={image} showModal={showModal} setShowModal={setShowModal} setImage={setImage} />
     </>
   );
 };
