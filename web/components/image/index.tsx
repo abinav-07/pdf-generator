@@ -1,8 +1,8 @@
-import { Input, Modal, } from "antd";
+import { Input, Modal } from "antd";
 import React, { ChangeEvent, useState } from "react";
 
 interface ImageMenuProps {
-  showModal: boolean
+  showModal: boolean;
   image?: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setImage?: React.Dispatch<React.SetStateAction<string>>;
@@ -10,7 +10,12 @@ interface ImageMenuProps {
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-export const AddImageLinkModal = ({ showModal, setShowModal, image, setImage }: ImageMenuProps) => {
+export const AddImageLinkModal = ({
+  showModal,
+  setShowModal,
+  image,
+  setImage,
+}: ImageMenuProps) => {
   const [input, setInput] = useState(image || "");
 
   const handleChange = (e: InputEvent) => {
@@ -28,12 +33,15 @@ export const AddImageLinkModal = ({ showModal, setShowModal, image, setImage }: 
   };
 
   const handleCancel = () => {
-    setShowModal(false)
-  }
+    setShowModal(false);
+  };
 
   return (
     <Modal
-      title="Add Image" open={showModal} onOk={setLink} onCancel={handleCancel}
+      title="Add Image"
+      open={showModal}
+      onOk={setLink}
+      onCancel={handleCancel}
     >
       <Input value={input} onChange={handleChange} />
     </Modal>

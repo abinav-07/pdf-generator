@@ -57,12 +57,7 @@ const TiptapEditor = ({
 
   return (
     <div className={className} {...props}>
-      {showMenubar && (
-        <EditorMenu
-          editor={editor}
-          {...props}
-        />
-      )}
+      {showMenubar && <EditorMenu editor={editor} {...props} />}
 
       <EditorContent editor={editor} />
     </div>

@@ -98,9 +98,21 @@ const GeneratorModel: React.FC = () => {
           >
             <Form.Item
               label={
-                <div style={{ display: "flex", justifyContent: "space-between", width: "100vw", alignItems: "center" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100vw",
+                    alignItems: "center",
+                  }}
+                >
                   <span>Header Contents</span>
-                  <Button type="primary" onClick={() => { setShowModal(true) }}>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setShowModal(true);
+                    }}
+                  >
                     Add Image in Header
                   </Button>
                 </div>
@@ -114,7 +126,7 @@ const GeneratorModel: React.FC = () => {
                 placeholder="Type your header contents as HTML code!EG: <div>Test</div>"
                 value={form.getFieldValue("headerText")}
                 onChange={(value: any) => {
-                  form.setFieldValue
+                  form.setFieldValue;
                   setHtmlContents((prevContents) => ({
                     ...prevContents,
                     headerText: value,
@@ -196,7 +208,12 @@ const GeneratorModel: React.FC = () => {
           />
         </Col>
       </Row>
-      <AddImageLinkModal image={image} showModal={showModal} setShowModal={setShowModal} setImage={setImage} />
+      <AddImageLinkModal
+        image={image}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        setImage={setImage}
+      />
     </>
   );
 };

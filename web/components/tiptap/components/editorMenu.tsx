@@ -17,14 +17,10 @@ interface EditorMenuProps {
   editor: Editor;
 }
 
-const EditorMenu = ({
-  editor,
-}: EditorMenuProps) => {
+const EditorMenu = ({ editor }: EditorMenuProps) => {
   if (!editor) {
     return null;
   }
-
-
 
   useEffect(() => {
     const handleMenuButtonClick = (event: any) => {
