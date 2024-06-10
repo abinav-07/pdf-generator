@@ -6,7 +6,7 @@ exports.createSimpleTemplate = (bodyHTML) => `
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             .body {
-                padding: 1in 0.75in;
+                padding: 1in 0.75in !important;
             }
         </style>
     </head>
