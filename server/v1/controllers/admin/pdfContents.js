@@ -111,7 +111,6 @@ const create = async (req, res, next) => {
   const validationResult = schema.validate(data, { abortEarly: false });
   try {
     const { user } = req;
-    
 
     let { pdfName, headerHTML, bodyHTML, footerHTML, pdfOptions } = data;
 
@@ -121,15 +120,17 @@ const create = async (req, res, next) => {
       throw new ValidationException(null, validationResult.error);
 
     // Check if PDF Name already exists
-  const checkDuplicate=await PDFContentQueries.getOnePDF({
-    pdf_name:pdfName,
-    admin_id:user?.id,
-  })
+    const checkDuplicate = await PDFContentQueries.getOnePDF({
+      pdf_name: pdfName,
+      admin_id: user?.id,
+    });
 
-  if (checkDuplicate){
-    throw new ValidationException(null, "PDF Name already registered. Delete Previous data or give different name");
-  }
-
+    if (checkDuplicate) {
+      throw new ValidationException(
+        null,
+        "PDF Name already registered. Delete Previous data or give different name",
+      );
+    }
 
     // PDF Option
     pdfOptions = pdfOptions || DEFAULTPDFOPTIONS;
@@ -153,13 +154,16 @@ const create = async (req, res, next) => {
     await browser.close();
 
     // Add in DB
-await PDFContentQueries.createPDFContents({
-  admin_id:user?.id,
-  pdf_name:pdfName,
-  custom_header:headerHTML,
-  custom_body:pdfContentTemplate,
-  custom_footer:footerHTML,
-},t)
+    await PDFContentQueries.createPDFContents(
+      {
+        admin_id: user?.id,
+        pdf_name: pdfName,
+        custom_header: headerHTML,
+        custom_body: pdfContentTemplate,
+        custom_footer: footerHTML,
+      },
+      t,
+    );
 
     await t.commit();
 

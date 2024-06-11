@@ -16,8 +16,8 @@ const Header = styled(AntHeader)`
 
 const FeatureList: React.FC = () => {
   const [form] = Form.useForm();
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
-  const [deleteId, setDeleteId] = useState<number>(0)
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<number>(0);
 
   const {
     data: pdfContentsData,
@@ -39,33 +39,34 @@ const FeatureList: React.FC = () => {
     },
   });
 
-
-  const { mutate: deleteRow, isLoading: isDeleting } = useMutation(deletePDFContent, {
-    onSuccess: () => {
-      // Refetch 
-      refetchData()
-      message.open({
-        type: "success",
-        content: "Successfully Deleted",
-      })
+  const { mutate: deleteRow, isLoading: isDeleting } = useMutation(
+    deletePDFContent,
+    {
+      onSuccess: () => {
+        // Refetch
+        refetchData();
+        message.open({
+          type: "success",
+          content: "Successfully Deleted",
+        });
+      },
+      onError: (err: any) => {
+        message.open({
+          type: "error",
+          content: err?.response?.data?.message || "Error when deleting.",
+        });
+      },
     },
-    onError: (err: any) => {
-      message.open({
-        type: "error",
-        content: err?.response?.data?.message || "Error when deleting.",
-      })
-    }
-  })
+  );
 
   const handleCancel = () => {
     setShowDeleteModal(false);
   };
 
-
   const handleDelete = (id: number) => {
-    deleteRow(id)
-    setShowDeleteModal(false)
-  }
+    deleteRow(id);
+    setShowDeleteModal(false);
+  };
 
   const columns = [
     {
@@ -79,19 +80,22 @@ const FeatureList: React.FC = () => {
       width: "50%",
     },
     {
-      title: 'Action',
+      title: "Action",
       dataIndex: "id",
-      key: 'id',
+      key: "id",
       width: "25%",
       render: (id: number) => (
         <div style={{ textAlign: "center" }}>
-          <Button type="primary" danger onClick={() => {
-            setDeleteId(id)
-            setShowDeleteModal(true)
-          }} >
+          <Button
+            type="primary"
+            danger
+            onClick={() => {
+              setDeleteId(id);
+              setShowDeleteModal(true);
+            }}
+          >
             <DeleteFilled />
           </Button>
-
         </div>
       ),
     },

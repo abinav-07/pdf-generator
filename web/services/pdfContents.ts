@@ -14,6 +14,8 @@ export const createPDFContents = async (
   });
 };
 
-export const deletePDFContent = async (pdfId: number): Promise<AxiosResponse<any>> => {
+export const deletePDFContent = async (
+  pdfId: number,
+): Promise<AxiosResponse<any>> => {
   return await API.delete(`/admin/pdf/contents/${pdfId}/delete`);
-}
+};

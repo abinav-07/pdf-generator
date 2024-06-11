@@ -54,7 +54,9 @@ const GeneratorModel: React.FC = () => {
         window.URL.revokeObjectURL(url);
       },
       onError: (err: any) => {
-        const decodedMessage = JSON.parse(new TextDecoder().decode(err?.response?.data))
+        const decodedMessage = JSON.parse(
+          new TextDecoder().decode(err?.response?.data),
+        );
         message.open({
           type: "error",
           content:
