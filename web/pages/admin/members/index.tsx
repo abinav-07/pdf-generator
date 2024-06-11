@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import {
   Form,
   Input,
+  Layout,
   Popconfirm,
   Select,
   Table,
@@ -12,6 +13,7 @@ import { useMutation, useQuery } from "react-query";
 import { fetchUsers, updateUserAdmin } from "../../../services/users";
 import { AuthContext } from "../../../utils";
 import PrivateRoute from "@/privateRoute";
+import { Content, Header } from "antd/lib/layout/layout";
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
@@ -214,24 +216,28 @@ const MemberList: React.FC = () => {
   });
 
   return (
-    <>
-      <Form form={form} component={false}>
+    <Layout>
+      <Header className="content-header">
         <h3>Create/Edit User Roles </h3>
-        <Table
-          components={{
-            body: {
-              cell: EditableCell,
-            },
-          }}
-          bordered
-          dataSource={usersData?.data}
-          columns={mergedColumns}
-          loading={isLoading || updateLoading}
-          rowClassName="editable-row"
-          pagination={false}
-        />
-      </Form>
-    </>
+      </Header>
+      <Content>
+        <Form form={form} component={false}>
+          <Table
+            components={{
+              body: {
+                cell: EditableCell,
+              },
+            }}
+            bordered
+            dataSource={usersData?.data}
+            columns={mergedColumns}
+            loading={isLoading || updateLoading}
+            rowClassName="editable-row"
+            pagination={false}
+          />
+        </Form>
+      </Content>
+    </Layout>
   );
 };
 
