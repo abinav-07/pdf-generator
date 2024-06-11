@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       custom_header: {
-        type: DataTypes.STRING(256),
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       custom_body: {

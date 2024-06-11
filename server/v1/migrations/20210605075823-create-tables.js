@@ -72,7 +72,7 @@ module.exports = {
             allowNull: false,
           },
           custom_header: {
-            type: Sequelize.DataTypes.STRING(256),
+            type: Sequelize.DataTypes.TEXT,
             allowNull: false,
           },
           custom_body: {
