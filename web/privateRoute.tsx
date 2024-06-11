@@ -20,7 +20,7 @@ const LayoutContent = styled(Content)`
   padding-right: 1.5rem;
   padding-top: 2rem;
   @media only screen and (max-width: 748px) {
-    width:fit-content !important;
+    width: fit-content !important;
   }
 `;
 
