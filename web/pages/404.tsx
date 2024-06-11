@@ -1,3 +1,4 @@
+import PrivateRoute from "@/privateRoute";
 import { Result } from "antd";
 import styled from "styled-components";
 
@@ -18,4 +19,4 @@ const PageNotFound = () => {
   );
 };
 
-export default PageNotFound;
+export default PrivateRoute(PageNotFound, { type: "Admin" });

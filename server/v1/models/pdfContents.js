@@ -30,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(256),
         allowNull: false,
       },
-      custom_header_image: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
       custom_body: {
         type: DataTypes.TEXT,
         allowNull: false,
