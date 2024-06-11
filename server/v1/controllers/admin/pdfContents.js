@@ -110,7 +110,8 @@ const create = async (req, res, next) => {
 
   const validationResult = schema.validate(data, { abortEarly: false });
   try {
-    const { user } = req.user;
+    const { user } = req;
+    
 
     let { pdfName, headerHTML, bodyHTML, footerHTML, pdfOptions } = data;
 
@@ -118,6 +119,17 @@ const create = async (req, res, next) => {
     t = await sequelize.transaction();
     if (validationResult && validationResult.error)
       throw new ValidationException(null, validationResult.error);
+
+    // Check if PDF Name already exists
+  const checkDuplicate=await PDFContentQueries.getOnePDF({
+    pdf_name:pdfName,
+    admin_id:user?.id,
+  })
+
+  if (checkDuplicate){
+    throw new ValidationException(null, "PDF Name already registered. Delete Previous data or give different name");
+  }
+
 
     // PDF Option
     pdfOptions = pdfOptions || DEFAULTPDFOPTIONS;
@@ -139,6 +151,15 @@ const create = async (req, res, next) => {
     const pdfBuffer = await page.pdf(pdfOptions);
 
     await browser.close();
+
+    // Add in DB
+await PDFContentQueries.createPDFContents({
+  admin_id:user?.id,
+  pdf_name:pdfName,
+  custom_header:headerHTML,
+  custom_body:pdfContentTemplate,
+  custom_footer:footerHTML,
+},t)
 
     await t.commit();
 
@@ -181,7 +202,7 @@ const deleteOne = async (req, res, next) => {
   let t;
 
   try {
-    const { user } = req.user;
+    const { user } = req;
     // First, we start a transaction from your connection and save it into a variable
     t = await sequelize.transaction();
 

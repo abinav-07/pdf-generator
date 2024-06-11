@@ -8,8 +8,12 @@ export const fetchPDFContents = async (): Promise<AxiosResponse<any>> => {
 
 export const createPDFContents = async (
   values: ICreatePDF,
-): Promise<AxiosResponse<any>> => {
+): Promise<AxiosResponse<any> | string> => {
   return await API.post(`/admin/pdf/contents/create`, values, {
     responseType: "arraybuffer",
   });
 };
+
+export const deletePDFContent = async (pdfId: number): Promise<AxiosResponse<any>> => {
+  return await API.delete(`/admin/pdf/contents/${pdfId}/delete`);
+}

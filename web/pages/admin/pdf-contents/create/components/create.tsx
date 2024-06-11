@@ -54,10 +54,11 @@ const GeneratorModel: React.FC = () => {
         window.URL.revokeObjectURL(url);
       },
       onError: (err: any) => {
+        const decodedMessage = JSON.parse(new TextDecoder().decode(err?.response?.data))
         message.open({
           type: "error",
           content:
-            err?.response?.data?.message || "Error while generate pdf preview",
+            decodedMessage?.message || "Error while generate pdf preview",
         });
       },
     },

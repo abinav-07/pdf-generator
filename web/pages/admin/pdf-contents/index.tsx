@@ -1,11 +1,12 @@
-import React from "react";
-import { Button, Form, Layout, Table } from "antd";
-import { useQuery } from "react-query";
-import { fetchPDFContents } from "@/services/pdfContents";
+import React, { useState } from "react";
+import { Button, Form, Layout, Modal, Table, message } from "antd";
+import { useMutation, useQuery } from "react-query";
+import { deletePDFContent, fetchPDFContents } from "@/services/pdfContents";
 import PrivateRoute from "@/privateRoute";
 import { Content, Header as AntHeader } from "antd/lib/layout/layout";
 import styled from "styled-components";
 import Router from "next/router";
+import { DeleteFilled } from "@ant-design/icons";
 
 const Header = styled(AntHeader)`
   display: flex;
@@ -15,12 +16,14 @@ const Header = styled(AntHeader)`
 
 const FeatureList: React.FC = () => {
   const [form] = Form.useForm();
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const [deleteId, setDeleteId] = useState<number>(0)
 
   const {
     data: pdfContentsData,
     isLoading,
     isFetching,
-    refetch: featuresRefetch,
+    refetch: refetchData,
   } = useQuery(["pdfContents"], () => fetchPDFContents(), {
     keepPreviousData: false,
     refetchOnWindowFocus: false,
@@ -36,34 +39,61 @@ const FeatureList: React.FC = () => {
     },
   });
 
+
+  const { mutate: deleteRow, isLoading: isDeleting } = useMutation(deletePDFContent, {
+    onSuccess: () => {
+      // Refetch 
+      refetchData()
+      message.open({
+        type: "success",
+        content: "Successfully Deleted",
+      })
+    },
+    onError: (err: any) => {
+      message.open({
+        type: "error",
+        content: err?.response?.data?.message || "Error when deleting.",
+      })
+    }
+  })
+
+  const handleCancel = () => {
+    setShowDeleteModal(false);
+  };
+
+
+  const handleDelete = (id: number) => {
+    deleteRow(id)
+    setShowDeleteModal(false)
+  }
+
   const columns = [
     {
-      title: "User id",
+      title: "Id",
       dataIndex: "id",
       width: "25%",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      width: "15%",
+      title: "PDF Name",
+      dataIndex: "pdf_name",
+      width: "50%",
     },
     {
-      title: "Name",
-      dataIndex: "displayName",
-      width: "20%",
-    },
-    {
-      title: "Email Given Id",
-      dataIndex: "service_user_id",
-      width: "15%",
-    },
-    {
-      title: "Date",
-      dataIndex: "created_at",
-      key: "date",
+      title: 'Action',
+      dataIndex: "id",
+      key: 'id',
       width: "25%",
-      render: (_: any, record: any) =>
-        `${record?.created_at ? new Date(record?.created_at).toISOString().split("T")[0] : "-"}`,
+      render: (id: number) => (
+        <div style={{ textAlign: "center" }}>
+          <Button type="primary" danger onClick={() => {
+            setDeleteId(id)
+            setShowDeleteModal(true)
+          }} >
+            <DeleteFilled />
+          </Button>
+
+        </div>
+      ),
     },
   ];
 
@@ -85,12 +115,21 @@ const FeatureList: React.FC = () => {
               bordered
               dataSource={pdfContentsData?.data || []}
               columns={columns}
-              loading={isLoading || isFetching}
+              loading={isLoading || isFetching || isDeleting}
               pagination={false}
             />
           </Form>
         </Content>
       </Layout>
+      {showDeleteModal && (
+        <Modal
+          title="Delete PDF"
+          open={showDeleteModal}
+          onOk={() => handleDelete(deleteId)}
+          onCancel={handleCancel}
+          maskClosable={true}
+        />
+      )}
     </>
   );
 };
