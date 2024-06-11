@@ -19,6 +19,9 @@ const LayoutContent = styled(Content)`
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-top: 2rem;
+  @media only screen and (max-width: 748px) {
+    width:fit-content !important;
+  }
 `;
 
 const LoaderWrapper = styled.div`

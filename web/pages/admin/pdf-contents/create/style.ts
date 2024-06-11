@@ -56,6 +56,7 @@ export const Wrapper = styled.div`
             height: 40px;
             margin: 0;
             padding: 10px;
+            overflow-x:auto;
         
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
@@ -87,5 +88,4 @@ export const Wrapper = styled.div`
             color: black;
         }
     }
-
 `;

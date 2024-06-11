@@ -88,8 +88,8 @@ const GeneratorModel: React.FC = () => {
 
   return (
     <>
-      <Row style={{ flexWrap: "nowrap" }}>
-        <Col xs={24} md={11} className="generator-modal">
+      <Row style={{ flexWrap: "wrap" }}>
+        <Col sm={24} xs={24} md={11} className="generator-modal">
           <Form
             id="pdfForm"
             labelCol={{ span: 24 }}
@@ -204,13 +204,13 @@ const GeneratorModel: React.FC = () => {
             </Form.Item>
           </Form>
         </Col>
-        <Col xs={24} md={1}>
+        <Col sm={24} xs={24} md={1}>
           <Divider
             type="vertical"
             style={{ height: "100%", borderLeft: "5px dashed #c7cdd4" }}
           />
         </Col>
-        <Col xs={24} md={12}>
+        <Col sm={24} xs={24} md={12}>
           {/* Div just to render PDF contents  */}
           <PDFPreview
             headerImage={image || ""}
