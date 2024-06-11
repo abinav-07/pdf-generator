@@ -89,6 +89,7 @@ const create = async (req, res, next) => {
   let t;
   // Joi validations
   const schema = Joi.object({
+    pdfName: Joi.string().required(),
     headerHTML: Joi.string().required(),
     bodyHTML: Joi.string(),
     footerHTML: Joi.string(),
@@ -111,7 +112,7 @@ const create = async (req, res, next) => {
   try {
     const { user } = req.user;
 
-    let { headerHTML, bodyHTML, footerHTML, pdfOptions } = data;
+    let {pdfName, headerHTML, bodyHTML, footerHTML, pdfOptions } = data;
 
     // First, we start a transaction from your connection and save it into a variable
     t = await sequelize.transaction();

@@ -13,6 +13,7 @@ export interface IPDFOptions {
 }
 
 export interface ICreatePDF {
+  pdfName: string;
   headerHTML: string;
   bodyHTML: string;
   footerHTML: string;

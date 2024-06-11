@@ -42,6 +42,7 @@ export const AddImageLinkModal = ({
       open={showModal}
       onOk={setLink}
       onCancel={handleCancel}
+      maskClosable={true}
     >
       <Input value={input} onChange={handleChange} />
     </Modal>

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { Button, Col, Divider, Form, Row, message } from "antd";
+import { Button, Col, Divider, Form, Input, Row, message } from "antd";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
@@ -14,6 +14,7 @@ const TiptapEditor = dynamic(() => import("../../../../../components/tiptap"), {
 });
 
 interface IHTMLContents {
+  pdfName: string;
   headerText: string;
   bodyText: string;
   footerText: string;
@@ -22,6 +23,7 @@ interface IHTMLContents {
 const GeneratorModel: React.FC = () => {
   const [form] = Form.useForm();
   const [htmlContents, setHtmlContents] = useState<IHTMLContents>({
+    pdfName: "",
     headerText: "",
     bodyText: "",
     footerText: "",
@@ -38,7 +40,7 @@ const GeneratorModel: React.FC = () => {
 
         // Create a URL for the blob
         const url = window.URL.createObjectURL(blob);
-        const filename = `${uuidv4()}-generated.pdf`;
+        const filename = `${form.getFieldValue("pdfName")}.pdf`;
 
         // Create a link element and trigger download
         const link = document.createElement("a");
@@ -63,6 +65,7 @@ const GeneratorModel: React.FC = () => {
 
   const handleSubmit = async (values: IHTMLContents) => {
     generatePDF({
+      pdfName: values?.pdfName,
       headerHTML: await formatHeader(values?.headerText, image),
       bodyHTML: values?.bodyText,
       footerHTML: formatFooter(values?.footerText),
@@ -96,6 +99,15 @@ const GeneratorModel: React.FC = () => {
             form={form}
             onFinish={handleSubmit}
           >
+            <Form.Item
+              label="PDF File Name"
+              name="pdfName"
+              rules={[
+                { required: true, message: "Please Enter Your PDF File Name!" },
+              ]}
+            >
+              <Input placeholder="Enter PDF File Name" />
+            </Form.Item>
             <Form.Item
               label={
                 <div
