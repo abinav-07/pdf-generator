@@ -112,7 +112,7 @@ const create = async (req, res, next) => {
   try {
     const { user } = req.user;
 
-    let {pdfName, headerHTML, bodyHTML, footerHTML, pdfOptions } = data;
+    let { pdfName, headerHTML, bodyHTML, footerHTML, pdfOptions } = data;
 
     // First, we start a transaction from your connection and save it into a variable
     t = await sequelize.transaction();
