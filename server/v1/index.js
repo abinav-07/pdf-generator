@@ -20,11 +20,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //CORS
-app.use(cors({
-  origin: '*', 
-  methods: ['GET', 'POST','PATCH','DELETE','PUT'],
-  allowedHeaders: ['*'],
-}));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
+    allowedHeaders: ["*"],
+  }),
+);
 
 //Routes
 app.use("/v1", require("./routes/users"));
