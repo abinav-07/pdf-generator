@@ -53,7 +53,6 @@ export const Wrapper = styled.div`
             display: flex;
             align-items: center;
             gap: 8px;
-            height: 40px;
             margin: 0;
             padding: 10px;
             overflow-x:auto;
