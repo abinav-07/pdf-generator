@@ -5,6 +5,7 @@ import { LogoutButton, NavBarDiv, NavBarMenuItem } from "./style";
 import { AdminNavbarItems } from "./items";
 import Router from "next/router";
 import Link from "next/link";
+import { useCallback } from "react";
 
 interface props {
   type: "Admin" | "User";
@@ -15,12 +16,12 @@ const NavBar = ({ type }: props) => {
   const activeKey =
     history.pathname.split("/")[2] || history.pathname.split("/")[1];
 
-  const logout = () => {
+  const logout = useCallback(() => {
     removeToken("role-token");
     if (type == "Admin") {
       history.push("/login");
     }
-  };
+  }, [history, type]);
 
   return (
     <NavBarDiv>
@@ -28,15 +29,15 @@ const NavBar = ({ type }: props) => {
         {type == "Admin" &&
           AdminNavbarItems?.map(({ key, label, path, icon }) => (
             <NavBarMenuItem key={key} icon={icon}>
-              <Link href={path}>{label}</Link>
+              <Link href={path} passHref>
+                <a>{label}</a>
+              </Link>
             </NavBarMenuItem>
           ))}
         <Menu.Item
           key="Logout"
           icon={<LogoutOutlined />}
-          onClick={() => {
-            logout();
-          }}
+          onClick={logout}
         >
           <LogoutButton>Log Out</LogoutButton>
         </Menu.Item>
