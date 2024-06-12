@@ -1,7 +1,7 @@
 <!-- Use cmd+shift+v in macOS or ctrl+alt+v on windows to open as a preview -->
 # PDF Renderer
 PDF Renderer using `Node/Express.js` and `Next.js`, `Sequelize`, `Puppetter` and `Jwts`.
-`Works Better in Mac M1 chip, not tested in Windows`
+`Tested in Mac M1 chip, not tested in Windows`
 
 ### CONFIGURATION
 
