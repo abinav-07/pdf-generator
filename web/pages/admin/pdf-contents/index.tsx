@@ -127,7 +127,7 @@ const FeatureList: React.FC = () => {
       </Layout>
       {showDeleteModal && (
         <Modal
-          title="Delete PDF"
+          title="Delete PDF?"
           open={showDeleteModal}
           onOk={() => handleDelete(deleteId)}
           onCancel={handleCancel}
