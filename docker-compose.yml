@@ -35,7 +35,7 @@ services:
       - /node/app/node_modules
     ports:
       - ${NODE_PORT}:${NODE_PORT}
-    container_name: node-app
+    container_name: pdf-node-app
 
   next-build:
     build:
@@ -47,7 +47,7 @@ services:
     volumes:
       - ./web:/next/app
       - /next/app/node_modules
-    container_name: next-app
+    container_name: pdf-next-app
     env_file: .env
     depends_on:
       - backend

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "migrate": "npx sequelize-cli db:migrate",
-    "server": "npm run migrate && nodemon index.js"
+    "seed": "npx sequelize-cli db:seed:all",
+    "server": "npm run migrate && npm run seed && nodemon index.js"
   },
   "dependencies": {
     "apidoc": "^1.2.0",
