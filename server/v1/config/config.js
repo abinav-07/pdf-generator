@@ -17,6 +17,7 @@ module.exports = {
       createdAt: "created_at",
       updatedAt: "updated_at",
     },
-    logging: (msg) => (process.env.NODE_ENV === "development" ? console.log(msg) : false), //logs sequelize first response from the execution
+    logging: (msg) =>
+      process.env.NODE_ENV === "development" ? console.log(msg) : false, //logs sequelize first response from the execution
   },
 };
