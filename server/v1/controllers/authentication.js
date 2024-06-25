@@ -16,13 +16,13 @@ const jwtSecretKey = `${process.env.JWT_SECRET_KEY}`;
  * @apiGroup Authentication
  * @apiDescription Register a user
  *
- * @apiParam {String} first_name The first name of the user.
- * @apiParam {String} last_name The last name of the user.
- * @apiParam {String} email The email of the user.
- * @apiParam {String} password The password of the user.
- * @apiParam {String} confirm_password The confirmation of the password.
+ * @apiBody {String} first_name The first name of the user.
+ * @apiBody {String} last_name The last name of the user.
+ * @apiBody {String} email The email of the user.
+ * @apiBody {String} password The password of the user.
+ * @apiBody {String} confirm_password The confirmation of the password.
  *
- * @apiParamExample {json} Request Example:
+ * @apiBodyExample {json} Request Example:
  * {
  *    "first_name": "Test",
  *    "last_name": "Me",
@@ -121,10 +121,10 @@ const registerUser = async (req, res, next) => {
  * @apiGroup Authentication
  * @apiDescription Log in user
  *
- * @apiParam {String} email Email of the user.
- * @apiParam {String} password Password of the user.
+ * @apiBody {String} email Email of the user.
+ * @apiBody {String} password Password of the user.
  *
- * @apiParamExample {json} Request Example:
+ * @apiBodyExample {json} Request Example:
  * {
  *    "email": "test@mailinator.com",
  *    "password": "Test@123"

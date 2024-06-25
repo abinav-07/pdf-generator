@@ -54,12 +54,12 @@ const getAll = async (req, res, next) => {
  * @apiGroup Admin Users
  * @apiDescription Update user
  *
- * @apiParam {String} first_name The updated first name of the user.
- * @apiParam {String} last_name The updated last name of the user.
- * @apiParam {String} email The updated email of the user.
- * @apiParam {String} role Role type
+ * @apiBody {String} first_name The updated first name of the user.
+ * @apiBody {String} last_name The updated last name of the user.
+ * @apiBody {String} email The updated email of the user.
+ * @apiBody {String} role Role type
  *
- * @apiParamExample {json} Request Example:
+ * @apiBodyExample {json} Request Example:
  * {
  *    "first_name": "Test",
  *    "last_name": "Me",

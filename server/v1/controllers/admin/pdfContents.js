@@ -15,10 +15,6 @@ const { createSimpleTemplate } = require("../../templates/simplePDF");
  * @apiDescription Get All pdf contents
  *
  *
- * @apiParamExample {json} Request Example:
- * {
- *    "pdf_contents": PDFContentsPayload
- * }
  *
  * @apiSuccess {Object} Success message
  *
@@ -58,11 +54,11 @@ const getAll = async (req, res, next) => {
  * @apiGroup PDFContents
  * @apiDescription Create PDFContens
  *
- * @apiParam {String} headerHTML Header of PDF
- * @apiParam {String} bodyHTML Body of PDF
- * @apiParam {String} footerHTML Footer of PDF
+ * @apiBody {String} headerHTML Header of PDF
+ * @apiBody {String} bodyHTML Body of PDF
+ * @apiBody {String} footerHTML Footer of PDF
  *
- * @apiParamExample {json} Request Example:
+ * @apiBodyExample {json} Request Example:
  * {
  *    "success": Generate PDF
  * }
