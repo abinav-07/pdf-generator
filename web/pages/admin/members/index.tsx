@@ -90,7 +90,7 @@ const MemberList: React.FC = () => {
         data:
           data?.map((values, i) => ({
             ...values,
-            displayName: values?.displayName || values?.name,
+            displayName: values?.displayName || values?.name || `${values?.first_name} ${values?.last_name}`,
             key: i,
           })) || [],
       };
